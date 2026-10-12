@@ -140,96 +140,89 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
-      {/* Hero Metric Cards (FR-15) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Hero Metric Cards (Mobile 2x2 Grid) */}
+      <div className="grid grid-cols-2 gap-2.5">
         {/* Total Net Worth */}
-        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-lg relative overflow-hidden">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-            <span className="font-semibold uppercase tracking-wider">Total Net Worth</span>
+        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
+          <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+            <span className="font-semibold uppercase tracking-wider text-[10px]">Net Worth</span>
             <span
-              className={`font-semibold flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] ${
+              className={`font-semibold flex items-center gap-0.5 px-1.5 py-0.2 rounded-full text-[10px] ${
                 isPositiveDay
                   ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                   : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
               }`}
             >
-              {isPositiveDay ? '▲ +' : '▼ '}
-              {formatPercent(summary.dayGainPct, false)}
+              {isPositiveDay ? '▲' : '▼'} {formatPercent(summary.dayGainPct, false)}
             </span>
           </div>
 
-          <div className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight">
+          <div className="text-lg sm:text-xl font-extrabold text-white font-mono tracking-tight">
             {formatCurrency(summary.totalValue, user.baseCurrency)}
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-2">
-            <span>24h Day Change:</span>
-            <span className={isPositiveDay ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold'}>
-              {isPositiveDay ? '+' : ''}
-              {formatCurrency(summary.dayGain, user.baseCurrency)}
+          <div className="text-[10px] text-slate-400 mt-1">
+            24h: <span className={isPositiveDay ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold'}>
+              {isPositiveDay ? '+' : ''}{formatCurrency(summary.dayGain, user.baseCurrency)}
             </span>
           </div>
         </div>
 
         {/* Total Invested Basis */}
-        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-lg">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-            <span className="font-semibold uppercase tracking-wider">Total Invested Basis</span>
-            <span className="text-[11px] text-slate-500">Cost Basis</span>
+        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-3.5 shadow-lg">
+          <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+            <span className="font-semibold uppercase tracking-wider text-[10px]">Invested</span>
+            <span className="text-[10px] text-slate-500">{holdings.length} assets</span>
           </div>
 
-          <div className="text-2xl lg:text-3xl font-extrabold text-slate-200 font-mono tracking-tight">
+          <div className="text-lg sm:text-xl font-extrabold text-slate-200 font-mono tracking-tight">
             {formatCurrency(summary.totalInvested, user.baseCurrency)}
           </div>
 
-          <div className="text-xs text-slate-400 mt-2">
-            Across {holdings.length} distinct assets
+          <div className="text-[10px] text-slate-400 mt-1 truncate">
+            Cost Basis
           </div>
         </div>
 
         {/* Unrealised P&L */}
-        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-lg">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-            <span className="font-semibold uppercase tracking-wider">Unrealised Return</span>
+        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-3.5 shadow-lg">
+          <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+            <span className="font-semibold uppercase tracking-wider text-[10px]">Returns</span>
             <span
-              className={`font-semibold flex items-center gap-0.5 text-xs ${
+              className={`font-semibold text-[10px] ${
                 isPositiveReturn ? 'text-emerald-400' : 'text-rose-400'
               }`}
             >
-              {isPositiveReturn ? '+' : ''}
-              {formatPercent(summary.unrealisedGainPct, false)}
+              {isPositiveReturn ? '+' : ''}{formatPercent(summary.unrealisedGainPct, false)}
             </span>
           </div>
 
           <div
-            className={`text-2xl lg:text-3xl font-extrabold font-mono tracking-tight ${
+            className={`text-lg sm:text-xl font-extrabold font-mono tracking-tight ${
               isPositiveReturn ? 'text-emerald-400' : 'text-rose-400'
             }`}
           >
-            {isPositiveReturn ? '+' : ''}
-            {formatCurrency(summary.unrealisedGain, user.baseCurrency)}
+            {isPositiveReturn ? '+' : ''}{formatCurrency(summary.unrealisedGain, user.baseCurrency)}
           </div>
 
-          <div className="text-xs text-slate-400 mt-2">
-            Open market capital gain
+          <div className="text-[10px] text-slate-400 mt-1">
+            Unrealised P&amp;L
           </div>
         </div>
 
         {/* Cash & Liquid Reserves */}
-        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-5 shadow-lg">
-          <div className="flex items-center justify-between text-xs text-slate-400 mb-2">
-            <span className="font-semibold uppercase tracking-wider">Cash &amp; Dividends</span>
-            <span className="text-xs font-semibold text-blue-400">
-              +{formatCurrency(summary.totalDividends, user.baseCurrency)} Divs
-            </span>
+        <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-3.5 shadow-lg">
+          <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
+            <span className="font-semibold uppercase tracking-wider text-[10px]">Dividends</span>
+            <span className="text-[10px] font-semibold text-blue-400">Yield</span>
           </div>
 
-          <div className="text-2xl lg:text-3xl font-extrabold text-white font-mono tracking-tight">
-            {formatCurrency(summary.cashBalance, user.baseCurrency)}
+          <div className="text-lg sm:text-xl font-extrabold text-white font-mono tracking-tight">
+            +{formatCurrency(summary.totalDividends, user.baseCurrency)}
           </div>
 
-          <div className="text-xs text-slate-400 mt-2">
-            Liquid sweep + uninvested capital
+          <div className="text-[10px] text-slate-400 mt-1">
+            Cash payouts earned
           </div>
         </div>
       </div>
@@ -351,86 +344,57 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-800/70 text-slate-400 font-semibold border-b border-slate-800">
-                <tr>
-                  <th className="p-3">Asset</th>
-                  <th className="p-3 text-right">Holdings</th>
-                  <th className="p-3 text-right">Avg Buy Price</th>
-                  <th className="p-3 text-right">Current Price</th>
-                  <th className="p-3 text-right">Total Value</th>
-                  <th className="p-3 text-right">Unrealised P&amp;L</th>
-                  <th className="p-3 text-right">Allocation</th>
-                  <th className="p-3 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60 font-mono">
-                {filteredHoldings.slice(0, 8).map((h) => {
-                  const isGain = h.unrealisedGain >= 0;
-                  return (
-                    <tr key={h.assetId} className="hover:bg-slate-800/40 transition-colors">
-                      <td className="p-3">
-                        <div className="flex items-center gap-3">
-                          <BlenderAssetIcon type={h.type} size={28} />
-                          <div>
-                            <div className="font-bold text-white font-sans text-xs flex items-center gap-1.5">
-                              <span>{h.symbol}</span>
-                              {h.isManual && (
-                                <span className="text-[10px] bg-slate-800 text-amber-300 px-1.5 py-0.2 rounded border border-slate-700">
-                                  Manual
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-[11px] text-slate-400 font-sans truncate max-w-[140px]">
-                              {h.name}
-                            </div>
-                          </div>
+          <div className="space-y-3">
+            {/* Mobile Asset Cards Feed */}
+            <div className="space-y-2">
+              {filteredHoldings.slice(0, 8).map((h) => {
+                const isGain = h.unrealisedGain >= 0;
+                return (
+                  <div
+                    key={h.assetId}
+                    className="p-3 bg-slate-800/40 hover:bg-slate-800/70 transition-colors rounded-xl border border-slate-800 flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <BlenderAssetIcon type={h.type} size={28} />
+                      <div>
+                        <div className="font-bold text-white font-sans text-xs flex items-center gap-1">
+                          <span>{h.symbol}</span>
+                          <span className="text-[10px] text-slate-400 font-mono font-normal">
+                            ({h.quantity.toLocaleString()} sh)
+                          </span>
                         </div>
-                      </td>
+                        <div className="text-[10px] text-slate-400 font-sans truncate max-w-[130px]">
+                          {h.name}
+                        </div>
+                      </div>
+                    </div>
 
-                      <td className="p-3 text-right text-slate-200">
-                        {h.quantity.toLocaleString(undefined, { maximumFractionDigits: 4 })}
-                      </td>
-
-                      <td className="p-3 text-right text-slate-400">
-                        {formatCurrency(h.avgCost, user.baseCurrency)}
-                      </td>
-
-                      <td className="p-3 text-right font-semibold text-slate-100">
-                        {formatCurrency(h.currentPrice, user.baseCurrency)}
-                      </td>
-
-                      <td className="p-3 text-right font-bold text-white">
-                        {formatCurrency(h.currentValue, user.baseCurrency)}
-                      </td>
-
-                      <td className={`p-3 text-right font-semibold ${isGain ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        {isGain ? '+' : ''}
-                        {formatCurrency(h.unrealisedGain, user.baseCurrency)}
-                        <span className="text-[10px] block opacity-90">
-                          ({formatPercent(h.unrealisedGainPct)})
-                        </span>
-                      </td>
-
-                      <td className="p-3 text-right text-slate-300">
-                        {formatPercent(h.allocationPct, false)}
-                      </td>
-
-                      <td className="p-3 text-center">
-                        <button
-                          onClick={() => onOpenManualPrice(h.assetId)}
-                          className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded text-[11px] font-sans transition-colors cursor-pointer"
-                          title="Update current price"
+                    <div className="flex items-center gap-2.5 text-right font-mono">
+                      <div>
+                        <div className="font-bold text-white text-xs">
+                          {formatCurrency(h.currentValue, user.baseCurrency)}
+                        </div>
+                        <div
+                          className={`text-[10px] font-semibold flex items-center justify-end gap-0.5 ${
+                            isGain ? 'text-emerald-400' : 'text-rose-400'
+                          }`}
                         >
-                          Price
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                          <span>{isGain ? '▲ +' : '▼ '}</span>
+                          <span>{formatPercent(h.unrealisedGainPct, false)}</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => onOpenManualPrice(h.assetId)}
+                        className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-[10px] font-sans border border-slate-700 cursor-pointer"
+                        title="Edit Price"
+                      >
+                        ₹
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
