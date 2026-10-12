@@ -1,0 +1,6 @@
+{
+  "name": "Vestoria - Investment & Net Worth Tracker",
+  "description": "Multi-asset portfolio and net worth tracker with real-time valuation, allocation charts, multi-currency support, CSV import, goals, and price alerts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
