@@ -32,12 +32,16 @@ import { Transaction } from './types';
 function MainApp() {
   const { user, isAuthenticated, loginAs, setSelectedPortfolioId } = useTracker();
 
-  // App starts on Landing Page by default!
-  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('landing');
+  // If already authenticated, show Dashboard! If guest/new visitor, show Landing!
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>(() =>
+    isAuthenticated ? 'dashboard' : 'landing'
+  );
 
-  // If user signs out, switch back to Landing Page
+  // Auto-redirect to dashboard on login, or to landing on logout
   useEffect(() => {
-    if (!isAuthenticated && currentScreen !== 'landing') {
+    if (isAuthenticated && currentScreen === 'landing') {
+      setCurrentScreen('dashboard');
+    } else if (!isAuthenticated && currentScreen !== 'landing') {
       setCurrentScreen('landing');
     }
   }, [isAuthenticated, currentScreen]);
@@ -144,12 +148,12 @@ function MainApp() {
 
       default:
         return (
-          <LandingView
-            onOpenAuth={handleOpenAuth}
-            onLaunchDemo={() => {
-              loginAs('investor');
-              setCurrentScreen('dashboard');
-            }}
+          <DashboardView
+            onOpenAddTx={() => handleOpenAddTx()}
+            onOpenCsvImport={() => setIsCsvImportOpen(true)}
+            onOpenManualPrice={handleOpenManualPrice}
+            onNavigateToHoldings={() => setCurrentScreen('holdings')}
+            onNavigateToGoals={() => setCurrentScreen('goals')}
           />
         );
     }

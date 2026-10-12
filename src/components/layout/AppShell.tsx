@@ -128,8 +128,18 @@ export const AppShell: React.FC<AppShellProps> = ({
               <span>{CURRENCY_SYMBOLS[user.baseCurrency]} {user.baseCurrency}</span>
             </div>
 
+            {/* If Authenticated on Landing screen, show Go to Dashboard button */}
+            {isAuthenticated && currentScreen === 'landing' && (
+              <button
+                onClick={() => handleNavClick('dashboard')}
+                className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+              >
+                Go to Dashboard →
+              </button>
+            )}
+
             {/* Quick Add Trade (Desktop & Tablet) */}
-            {isAuthenticated && (
+            {isAuthenticated && currentScreen !== 'landing' && (
               <button
                 onClick={onOpenAddTx}
                 className="hidden sm:flex px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold items-center gap-1.5 shadow-md transition-colors cursor-pointer"
