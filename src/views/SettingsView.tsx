@@ -10,6 +10,7 @@ import {
   CheckCircle,
   AlertTriangle,
   Shield,
+  RefreshCw,
 } from 'lucide-react';
 import { useTracker } from '../context/TrackerContext';
 import { CurrencyCode } from '../types';
@@ -66,6 +67,27 @@ export const SettingsView: React.FC = () => {
     a.click();
     URL.revokeObjectURL(url);
     showToast('Full user backup JSON generated & downloaded.');
+  };
+
+  const handleForceUpdate = async () => {
+    try {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map((name) => caches.delete(name)));
+      }
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const registration of registrations) {
+          await registration.unregister();
+        }
+      }
+      showToast('Cache cleared! Reloading latest version...');
+      setTimeout(() => {
+        window.location.reload();
+      }, 400);
+    } catch (err) {
+      window.location.reload();
+    }
   };
 
   const handleDeleteAccount = () => {
@@ -295,6 +317,15 @@ export const SettingsView: React.FC = () => {
             className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
           >
             Load Sample Demo Portfolio
+          </button>
+
+          <button
+            type="button"
+            onClick={handleForceUpdate}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-blue-400 border border-blue-500/30 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <RefreshCw size={14} />
+            <span>Force Update &amp; Clear Cache</span>
           </button>
         </div>
       </div>
