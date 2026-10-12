@@ -14,6 +14,7 @@ import {
 import { useTracker } from '../context/TrackerContext';
 import { CurrencyCode } from '../types';
 import { CURRENCY_SYMBOLS } from '../utils/currency';
+import { PWAInstallButton } from '../components/common/PWAInstallButton';
 
 export const SettingsView: React.FC = () => {
   const { user, updateProfile, deleteAccount, transactions, portfolios, goals, alerts, showToast } = useTracker();
@@ -74,6 +75,9 @@ export const SettingsView: React.FC = () => {
           Manage identity, base reporting currency, notification channels, and data privacy
         </p>
       </div>
+
+      {/* PWA Mobile App Installation Card */}
+      <PWAInstallButton variant="banner" />
 
       <form onSubmit={handleSaveProfile} className="space-y-6">
         {/* Profile Details Card */}

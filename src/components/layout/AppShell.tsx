@@ -25,6 +25,7 @@ import { useTracker } from '../../context/TrackerContext';
 import { BlenderCoins } from '../common/Blender3DIcons';
 import { CurrencyCode } from '../../types';
 import { CURRENCY_SYMBOLS } from '../../utils/currency';
+import { PWAInstallButton } from '../common/PWAInstallButton';
 
 export type ActiveScreen =
   | 'landing'
@@ -146,6 +147,9 @@ export const AppShell: React.FC<AppShellProps> = ({
           >
             {currentScreen === 'landing' ? 'Go to Dashboard →' : 'Public Landing Page'}
           </button>
+
+          {/* PWA Install Button */}
+          <PWAInstallButton variant="header" />
 
           {/* Quick Add Transaction Button if Authenticated */}
           {isAuthenticated && (
