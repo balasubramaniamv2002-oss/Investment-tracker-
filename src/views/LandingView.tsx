@@ -25,7 +25,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
   onLaunchDemo,
 }) => {
   return (
-    <div className="space-y-6 py-2 px-1 max-w-md mx-auto animate-fade-in">
+    <div className="w-full max-w-2xl mx-auto space-y-6 py-4 px-2 sm:px-4 animate-fade-in">
       {/* Mobile Header Badge */}
       <div className="text-center space-y-2 pt-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">

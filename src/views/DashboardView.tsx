@@ -140,8 +140,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
       </div>
 
-      {/* Hero Metric Cards (Mobile 2x2 Grid) */}
-      <div className="grid grid-cols-2 gap-2.5">
+      {/* Hero Metric Cards (Responsive 2-col on mobile, 4-col on desktop) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
         {/* Total Net Worth */}
         <div className="bg-slate-900/70 border border-slate-800 rounded-2xl p-3.5 shadow-lg relative overflow-hidden">
           <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
