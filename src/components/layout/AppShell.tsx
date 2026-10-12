@@ -353,13 +353,69 @@ export const AppShell: React.FC<AppShellProps> = ({
         )}
 
         {/* Main Workspace Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-x-hidden">
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 overflow-x-hidden pb-24 md:pb-8">
           {children}
         </main>
       </div>
 
+      {/* Native-App Mobile Bottom Navigation Bar (Hidden on Desktop or Landing page) */}
+      {currentScreen !== 'landing' && (
+        <nav className="no-print md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-xl border-t border-slate-800 px-3 py-2 flex items-center justify-around shadow-2xl">
+          <button
+            onClick={() => handleNavClick('dashboard')}
+            className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+              currentScreen === 'dashboard' ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <LayoutDashboard size={20} />
+            <span className="text-[10px]">Dashboard</span>
+          </button>
+
+          <button
+            onClick={() => handleNavClick('holdings')}
+            className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+              currentScreen === 'holdings' ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <PieChart size={20} />
+            <span className="text-[10px]">Holdings</span>
+          </button>
+
+          {/* Center Floating Add Action Button */}
+          <button
+            onClick={onOpenAddTx}
+            className="flex flex-col items-center justify-center -mt-6 bg-gradient-to-tr from-blue-600 to-indigo-500 text-white rounded-full w-12 h-12 shadow-lg shadow-blue-500/40 transition-transform active:scale-95 cursor-pointer"
+            title="Add Trade"
+          >
+            <Plus size={24} />
+          </button>
+
+          <button
+            onClick={() => handleNavClick('transactions')}
+            className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+              currentScreen === 'transactions' ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <History size={20} />
+            <span className="text-[10px]">Trades</span>
+          </button>
+
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className={`flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl transition-all cursor-pointer ${
+              ['portfolios', 'goals', 'alerts', 'reports', 'settings', 'admin'].includes(currentScreen)
+                ? 'text-blue-400 font-bold'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Menu size={20} />
+            <span className="text-[10px]">More</span>
+          </button>
+        </nav>
+      )}
+
       {/* Global Disclaimer Footer */}
-      <footer className="no-print border-t border-slate-800/80 px-6 py-4 text-center text-xs text-slate-500 bg-slate-950/40">
+      <footer className="no-print border-t border-slate-800/80 px-6 py-4 text-center text-xs text-slate-500 bg-slate-950/40 mb-14 md:mb-0">
         Vestoria is a personal investment tracking application. It is not a broker, investment advisor, or financial service.
       </footer>
     </div>

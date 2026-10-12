@@ -48,6 +48,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
     goals,
     triggeredAlerts,
     clearTriggeredAlerts,
+    loadDemoData,
   } = useTracker();
 
   const [searchFilter, setSearchFilter] = useState('');
@@ -320,18 +321,34 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
         </div>
 
         {holdings.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 space-y-3">
-            <Briefcase size={36} className="mx-auto text-slate-600" />
-            <div className="text-sm font-semibold text-slate-300">No active investments recorded yet</div>
-            <p className="text-xs max-w-sm mx-auto">
-              Add your first transaction manually or import historical broker trades via CSV.
-            </p>
-            <button
-              onClick={onOpenAddTx}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-md cursor-pointer"
-            >
-              Add First Investment
-            </button>
+          <div className="p-10 text-center text-slate-400 space-y-4 bg-slate-900/40 rounded-2xl border border-slate-800">
+            <Briefcase size={36} className="mx-auto text-blue-400" />
+            <div>
+              <div className="text-base font-bold text-white">Your Investment Portfolio is Clean (₹0.00)</div>
+              <p className="text-xs text-slate-400 max-w-md mx-auto mt-1">
+                Record your first transaction manually, import broker trades via CSV, or explore sample Indian stock data.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+              <button
+                onClick={onOpenAddTx}
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-md transition-colors cursor-pointer"
+              >
+                + Add First Investment
+              </button>
+              <button
+                onClick={onOpenCsvImport}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition-colors cursor-pointer"
+              >
+                Import CSV Trades
+              </button>
+              <button
+                onClick={loadDemoData}
+                className="px-3 py-2 text-blue-400 hover:text-blue-300 text-xs font-semibold underline cursor-pointer"
+              >
+                Load Sample Demo Data
+              </button>
+            </div>
           </div>
         ) : (
           <div className="overflow-x-auto">

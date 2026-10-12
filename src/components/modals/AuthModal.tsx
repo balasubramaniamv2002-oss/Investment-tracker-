@@ -6,12 +6,14 @@ import { CurrencyCode } from '../../types';
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
   defaultMode?: 'login' | 'signup';
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({
   isOpen,
   onClose,
+  onSuccess,
   defaultMode = 'signup',
 }) => {
   const { loginAs, signUpWithEmail, signInWithEmail, showToast } = useTracker();
@@ -20,7 +22,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [baseCurrency, setBaseCurrency] = useState<CurrencyCode>('USD');
+  const [baseCurrency, setBaseCurrency] = useState<CurrencyCode>('INR');
 
   if (!isOpen) return null;
 
@@ -28,6 +30,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     e.preventDefault();
     if (!email || !password) return;
     signUpWithEmail(email, name || 'New Investor', baseCurrency);
+    onSuccess?.();
     onClose();
   };
 
@@ -35,11 +38,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     e.preventDefault();
     if (!email) return;
     signInWithEmail(email);
+    onSuccess?.();
     onClose();
   };
 
   const handleGoogleSignIn = () => {
     loginAs('investor');
+    onSuccess?.();
     onClose();
   };
 
@@ -87,14 +92,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <span className="text-slate-400 font-medium">Quick Demo Profiles:</span>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => { loginAs('investor'); onClose(); }}
+              onClick={() => { loginAs('investor'); onSuccess?.(); onClose(); }}
               className="text-xs font-semibold text-blue-400 hover:text-blue-300 underline"
             >
               Investor (Bala)
             </button>
             <span className="text-slate-600">•</span>
             <button
-              onClick={() => { loginAs('admin'); onClose(); }}
+              onClick={() => { loginAs('admin'); onSuccess?.(); onClose(); }}
               className="text-xs font-semibold text-amber-400 hover:text-amber-300 underline"
             >
               Admin

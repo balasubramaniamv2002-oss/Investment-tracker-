@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrackerProvider, useTracker } from './context/TrackerContext';
 import { AppShell, ActiveScreen } from './components/layout/AppShell';
 
@@ -32,8 +32,15 @@ import { Transaction } from './types';
 function MainApp() {
   const { user, isAuthenticated, loginAs, setSelectedPortfolioId } = useTracker();
 
-  // Active Screen
-  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('dashboard');
+  // App starts on Landing Page by default!
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('landing');
+
+  // If user signs out, switch back to Landing Page
+  useEffect(() => {
+    if (!isAuthenticated && currentScreen !== 'landing') {
+      setCurrentScreen('landing');
+    }
+  }, [isAuthenticated, currentScreen]);
 
   // Modals state
   const [isAddTxOpen, setIsAddTxOpen] = useState(false);
@@ -136,13 +143,15 @@ function MainApp() {
         return <AdminView />;
 
       default:
-        return <DashboardView
-          onOpenAddTx={() => handleOpenAddTx()}
-          onOpenCsvImport={() => setIsCsvImportOpen(true)}
-          onOpenManualPrice={handleOpenManualPrice}
-          onNavigateToHoldings={() => setCurrentScreen('holdings')}
-          onNavigateToGoals={() => setCurrentScreen('goals')}
-        />;
+        return (
+          <LandingView
+            onOpenAuth={handleOpenAuth}
+            onLaunchDemo={() => {
+              loginAs('investor');
+              setCurrentScreen('dashboard');
+            }}
+          />
+        );
     }
   };
 
@@ -192,6 +201,7 @@ function MainApp() {
       <AuthModal
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={() => setCurrentScreen('dashboard')}
         defaultMode={authMode}
       />
 

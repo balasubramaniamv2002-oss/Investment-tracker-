@@ -58,7 +58,26 @@ export const DEMO_USER_GUEST: UserProfile = {
   },
 };
 
+// Clean initial state: 1 default portfolio, 0 transactions, 0 initial value!
 export const INITIAL_PORTFOLIOS: Portfolio[] = [
+  {
+    id: 'port_main',
+    userId: 'usr_default',
+    name: 'Primary Portfolio',
+    description: 'Main Indian Equity & Asset Portfolio',
+    archived: false,
+    createdAt: new Date().toISOString(),
+  },
+];
+
+export const INITIAL_TRANSACTIONS: Transaction[] = [];
+
+export const INITIAL_GOALS: Goal[] = [];
+
+export const INITIAL_ALERTS: Alert[] = [];
+
+// Sample Demo Data (Loaded only when user explicitly chooses "Explore Demo Mode")
+export const SAMPLE_DEMO_PORTFOLIOS: Portfolio[] = [
   {
     id: 'port_nifty_core',
     userId: 'usr_bala_2026',
@@ -85,7 +104,7 @@ export const INITIAL_PORTFOLIOS: Portfolio[] = [
   },
 ];
 
-export const INITIAL_TRANSACTIONS: Transaction[] = [
+export const SAMPLE_DEMO_TRANSACTIONS: Transaction[] = [
   // Core Portfolio (Nifty 50 & Bluechips)
   {
     id: 'tx_1',
@@ -140,209 +159,180 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
     portfolioId: 'port_nifty_core',
     assetId: 'PPFAS-FLEXI',
     type: 'buy',
-    date: '2025-06-01',
+    date: '2025-06-05',
     quantity: 4500,
-    price: 72.4,
+    price: 68.4,
     fees: 0,
     currency: 'INR',
-    notes: 'Direct mutual fund monthly SIP',
+    notes: 'Parag Parikh Flexi Cap Direct Mutual Fund SIP',
   },
   {
     id: 'tx_6',
     portfolioId: 'port_nifty_core',
-    assetId: 'TCS',
+    assetId: 'RELIANCE',
     type: 'dividend',
-    date: '2025-08-15',
-    quantity: 0,
-    price: 0,
+    date: '2025-08-25',
+    quantity: 180,
+    price: 10.0,
     fees: 0,
     currency: 'INR',
-    notes: 'Interim Cash Dividend received: ₹3,360 (credited to bank)',
+    notes: 'Annual equity cash dividend credited',
   },
 
-  // High Growth Portfolio
+  // Growth & High Alpha
   {
     id: 'tx_7',
     portfolioId: 'port_growth_alpha',
     assetId: 'HAL',
     type: 'buy',
-    date: '2025-01-20',
+    date: '2025-03-01',
     quantity: 150,
-    price: 3650.0,
+    price: 3850.0,
     fees: 110.0,
     currency: 'INR',
-    notes: 'Indigenous defence order book position',
+    notes: 'Defence orders & LCA Tejas growth allocation',
   },
   {
     id: 'tx_8',
     portfolioId: 'port_growth_alpha',
     assetId: 'TRENT',
     type: 'buy',
-    date: '2025-02-18',
+    date: '2025-04-12',
     quantity: 80,
-    price: 5920.0,
-    fees: 95.0,
+    price: 6420.0,
+    fees: 125.0,
     currency: 'INR',
-    notes: 'Retail & Zudio consumer growth story',
+    notes: 'Zudio & Westside retail hyper-expansion',
   },
   {
     id: 'tx_9',
     portfolioId: 'port_growth_alpha',
     assetId: 'ZOMATO',
     type: 'buy',
-    date: '2025-03-22',
-    quantity: 1800,
-    price: 188.0,
-    fees: 70.0,
+    date: '2025-05-18',
+    quantity: 2500,
+    price: 212.0,
+    fees: 60.0,
     currency: 'INR',
-    notes: 'Quick-commerce Blinkit expansion',
+    notes: 'Quick-commerce Blinkit monetization thesis',
   },
   {
     id: 'tx_10',
     portfolioId: 'port_growth_alpha',
     assetId: 'QUANT-SMALL',
     type: 'buy',
-    date: '2025-04-05',
-    quantity: 2500,
-    price: 232.0,
+    date: '2025-06-22',
+    quantity: 1200,
+    price: 228.0,
     fees: 0,
     currency: 'INR',
-    notes: 'Small-cap mutual fund tranche',
-  },
-  {
-    id: 'tx_11',
-    portfolioId: 'port_growth_alpha',
-    assetId: 'HAL',
-    type: 'sell',
-    date: '2025-09-12',
-    quantity: 30,
-    price: 4420.0,
-    fees: 40.0,
-    currency: 'INR',
-    notes: 'Partial profit booking (+₹23,100 realised profit)',
+    notes: 'Small-cap aggressive high alpha direct fund',
   },
 
-  // Safe Haven (SGB, Gold, FDs, Property)
+  // Safe Haven & Income
   {
-    id: 'tx_12',
+    id: 'tx_11',
     portfolioId: 'port_safe_haven',
     assetId: 'SGB-2024',
     type: 'buy',
-    date: '2025-01-10',
-    quantity: 80, // 80 grams
-    price: 6650.0,
+    date: '2025-01-20',
+    quantity: 80,
+    price: 6850.0,
     fees: 0,
     currency: 'INR',
     notes: 'RBI Sovereign Gold Bond issue (tax-free gains)',
   },
   {
-    id: 'tx_13',
+    id: 'tx_12',
     portfolioId: 'port_safe_haven',
     assetId: 'SBI-FD-1Y',
-    type: 'deposit',
+    type: 'buy',
     date: '2025-02-01',
     quantity: 5,
-    price: 100000.0, // ₹5,00,000 FD
+    price: 100000.0,
     fees: 0,
     currency: 'INR',
-    notes: 'State Bank of India 1-Year Fixed Deposit (6.80% p.a.)',
+    notes: 'SBI Cumulative Fixed Deposit 6.80% p.a.',
+  },
+  {
+    id: 'tx_13',
+    portfolioId: 'port_safe_haven',
+    assetId: 'EMBASSY',
+    type: 'buy',
+    date: '2025-03-05',
+    quantity: 1200,
+    price: 362.0,
+    fees: 45.0,
+    currency: 'INR',
+    notes: 'Commercial Grade-A IT Parks REIT yield',
   },
   {
     id: 'tx_14',
     portfolioId: 'port_safe_haven',
     assetId: 'EMBASSY',
-    type: 'buy',
-    date: '2025-03-14',
+    type: 'dividend',
+    date: '2025-06-15',
     quantity: 1200,
-    price: 348.0,
-    fees: 80.0,
+    price: 5.6,
+    fees: 0,
     currency: 'INR',
-    notes: 'Commercial office quarterly distribution REIT',
+    notes: 'Quarterly REIT distribution payout',
   },
   {
     id: 'tx_15',
     portfolioId: 'port_safe_haven',
     assetId: 'INR-CASH',
     type: 'deposit',
-    date: '2025-05-01',
-    quantity: 450000,
-    price: 1.0,
+    date: '2025-01-01',
+    quantity: 1,
+    price: 250000.0,
     fees: 0,
     currency: 'INR',
-    notes: 'High-yield bank savings emergency buffer',
+    notes: 'Emergency liquidity fund in Indian bank',
   },
 ];
 
-export const INITIAL_GOALS: Goal[] = [
+export const SAMPLE_DEMO_GOALS: Goal[] = [
   {
     id: 'goal_1',
     userId: 'usr_bala_2026',
-    name: 'Milestone 1: ₹1.00 Crore Total Net Worth',
-    targetAmount: 10000000, // 1 Crore INR
-    targetDate: '2027-03-31',
+    name: 'Financial Independence (1 Crore Corpus)',
+    targetAmount: 10000000,
+    targetDate: '2028-12-31',
     portfolioIds: [],
-    createdAt: '2025-01-20T00:00:00Z',
+    createdAt: '2025-01-15T00:00:00Z',
   },
   {
     id: 'goal_2',
     userId: 'usr_bala_2026',
-    name: 'Liquid Emergency Fund (₹15 Lakhs)',
-    targetAmount: 1500000,
+    name: 'Bengaluru Property Down Payment',
+    targetAmount: 3000000,
     targetDate: '2026-06-30',
     portfolioIds: ['port_safe_haven'],
-    createdAt: '2025-02-10T00:00:00Z',
-  },
-  {
-    id: 'goal_3',
-    userId: 'usr_bala_2026',
-    name: 'Financial Freedom & Early Retirement (₹3.50 Crore)',
-    targetAmount: 35000000,
-    targetDate: '2032-12-31',
-    portfolioIds: [],
-    createdAt: '2025-01-15T00:00:00Z',
+    createdAt: '2025-02-01T00:00:00Z',
   },
 ];
 
-export const INITIAL_ALERTS: Alert[] = [
+export const SAMPLE_DEMO_ALERTS: Alert[] = [
   {
     id: 'alert_1',
     userId: 'usr_bala_2026',
     assetId: 'RELIANCE',
     condition: 'above',
-    threshold: 3000,
-    channel: 'both',
+    threshold: 3050,
+    channel: 'push',
     active: true,
     createdAt: '2025-06-01T00:00:00Z',
   },
   {
     id: 'alert_2',
     userId: 'usr_bala_2026',
-    assetId: 'NIFTYBEES',
+    assetId: 'HDFCBANK',
     condition: 'below',
-    threshold: 270,
-    channel: 'push',
-    active: true,
-    createdAt: '2025-07-15T00:00:00Z',
-  },
-  {
-    id: 'alert_3',
-    userId: 'usr_bala_2026',
-    assetId: 'HAL',
-    condition: 'above',
-    threshold: 4800,
+    threshold: 1600,
     channel: 'email',
     active: true,
-    createdAt: '2025-08-01T00:00:00Z',
-  },
-  {
-    id: 'alert_4',
-    userId: 'usr_bala_2026',
-    assetId: 'SGB-2024',
-    condition: 'above',
-    threshold: 8000,
-    channel: 'push',
-    active: true,
-    createdAt: '2025-09-01T00:00:00Z',
+    createdAt: '2025-07-01T00:00:00Z',
   },
 ];
 
@@ -351,6 +341,10 @@ export function generateHistoricalSnapshots(
   currentTotal: number,
   currentInvested: number
 ): DailySnapshot[] {
+  if (currentTotal === 0 && currentInvested === 0) {
+    return [];
+  }
+
   const snapshots: DailySnapshot[] = [];
   const days = 365;
   const now = new Date('2026-10-11T00:00:00Z');

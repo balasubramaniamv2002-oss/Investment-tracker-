@@ -17,7 +17,18 @@ import { CURRENCY_SYMBOLS } from '../utils/currency';
 import { PWAInstallButton } from '../components/common/PWAInstallButton';
 
 export const SettingsView: React.FC = () => {
-  const { user, updateProfile, deleteAccount, transactions, portfolios, goals, alerts, showToast } = useTracker();
+  const {
+    user,
+    updateProfile,
+    deleteAccount,
+    transactions,
+    portfolios,
+    goals,
+    alerts,
+    showToast,
+    resetToZero,
+    loadDemoData,
+  } = useTracker();
 
   const [name, setName] = useState(user.name);
   const [baseCurrency, setBaseCurrency] = useState<CurrencyCode>(user.baseCurrency);
@@ -261,13 +272,31 @@ export const SettingsView: React.FC = () => {
           Download a complete machine-readable JSON archive containing all portfolios, transactions,
           historical records, goals, and alert monitors.
         </p>
-        <button
-          onClick={handleDownloadBackup}
-          className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
-        >
-          <Download size={14} className="text-emerald-400" />
-          <span>Download Complete JSON Archive</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            onClick={handleDownloadBackup}
+            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+          >
+            <Download size={14} className="text-emerald-400" />
+            <span>Download Complete JSON Archive</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={resetToZero}
+            className="px-4 py-2 bg-slate-800 hover:bg-amber-950/40 text-amber-300 border border-amber-600/30 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+          >
+            Clear All Trades (Reset to ₹0.00)
+          </button>
+
+          <button
+            type="button"
+            onClick={loadDemoData}
+            className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+          >
+            Load Sample Demo Portfolio
+          </button>
+        </div>
       </div>
 
       {/* Danger Zone: Account Deletion (FR-23, Workflow 6) */}

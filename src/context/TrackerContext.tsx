@@ -21,6 +21,10 @@ import {
   INITIAL_TRANSACTIONS,
   INITIAL_GOALS,
   INITIAL_ALERTS,
+  SAMPLE_DEMO_PORTFOLIOS,
+  SAMPLE_DEMO_TRANSACTIONS,
+  SAMPLE_DEMO_GOALS,
+  SAMPLE_DEMO_ALERTS,
   generateHistoricalSnapshots,
 } from '../data/seedUserData';
 import { INITIAL_ASSET_CATALOG, INITIAL_PRICES } from '../data/seedAssets';
@@ -43,6 +47,8 @@ interface TrackerContextType {
   signUpWithEmail: (email: string, name: string, baseCurrency: CurrencyCode) => void;
   signInWithEmail: (email: string) => void;
   signOut: () => void;
+  loadDemoData: () => void;
+  resetToZero: () => void;
   updateProfile: (updates: Partial<UserProfile>) => void;
   deleteAccount: () => void;
 
@@ -106,10 +112,17 @@ const TrackerContext = createContext<TrackerContextType | undefined>(undefined);
 const STORAGE_KEY = 'vestoria_investment_tracker_v1';
 
 export const TrackerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Load saved state or defaults
+  // Load saved state or defaults (Defaults to Guest on fresh visit)
   const [user, setUser] = useState<UserProfile>(() => {
     const saved = localStorage.getItem(`${STORAGE_KEY}_user`);
-    return saved ? JSON.parse(saved) : DEMO_USER_INVESTOR;
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        return DEMO_USER_GUEST;
+      }
+    }
+    return DEMO_USER_GUEST;
   });
 
   const [portfolios, setPortfolios] = useState<Portfolio[]>(() => {
@@ -129,6 +142,7 @@ export const TrackerProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return saved ? JSON.parse(saved) : INITIAL_PRICES;
   });
 
+  // Start with clean zero transactions by default!
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     const saved = localStorage.getItem(`${STORAGE_KEY}_transactions`);
     return saved ? JSON.parse(saved) : INITIAL_TRANSACTIONS;
@@ -307,17 +321,49 @@ export const TrackerProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setUser(DEMO_USER_ADMIN);
       showToast('Signed in as Administrator');
     } else {
-      setUser({
-        ...DEMO_USER_INVESTOR,
+      const displayName = email.split('@')[0];
+      const signedInUser: UserProfile = {
+        uid: `usr_${Date.now()}`,
+        name: displayName.charAt(0).toUpperCase() + displayName.slice(1),
         email,
-      });
-      showToast(`Welcome back, ${DEMO_USER_INVESTOR.name}!`);
+        role: 'investor',
+        baseCurrency: 'INR',
+        theme: 'dark',
+        emailVerified: true,
+        createdAt: new Date().toISOString(),
+        notificationSettings: {
+          email: true,
+          webPush: true,
+          weeklyDigest: true,
+          priceAlerts: true,
+        },
+      };
+      setUser(signedInUser);
+      showToast(`Welcome back, ${signedInUser.name}!`);
     }
   };
 
   const signOut = () => {
     setUser(DEMO_USER_GUEST);
+    localStorage.removeItem(`${STORAGE_KEY}_user`);
     showToast('Signed out successfully.');
+  };
+
+  const loadDemoData = () => {
+    setUser(DEMO_USER_INVESTOR);
+    setPortfolios(SAMPLE_DEMO_PORTFOLIOS);
+    setTransactions(SAMPLE_DEMO_TRANSACTIONS);
+    setGoals(SAMPLE_DEMO_GOALS);
+    setAlerts(SAMPLE_DEMO_ALERTS);
+    setSelectedPortfolioId('all');
+    showToast('Loaded sample Indian stock market demo portfolio!');
+  };
+
+  const resetToZero = () => {
+    setTransactions([]);
+    setGoals([]);
+    setAlerts([]);
+    showToast('Portfolio cleared! All values reset to ₹0.00.');
   };
 
   const updateProfile = (updates: Partial<UserProfile>) => {
@@ -627,6 +673,8 @@ export const TrackerProvider: React.FC<{ children: React.ReactNode }> = ({ child
         signUpWithEmail,
         signInWithEmail,
         signOut,
+        loadDemoData,
+        resetToZero,
         updateProfile,
         deleteAccount,
 
